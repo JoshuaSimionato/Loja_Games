@@ -3,7 +3,6 @@ import { ProdutoService } from "../services/produto.service";
 import { Produto } from "../entities/produto.entity";
 
 
-
 @Controller("/produto")
 export class ProdutoController {
     constructor(private readonly produtoService: ProdutoService) {}
@@ -42,6 +41,18 @@ export class ProdutoController {
     @HttpCode(HttpStatus.NO_CONTENT)  // Http Status 204
     delete(@Param('id', ParseIntPipe) id: number){
         return this.produtoService.delete(id);
+    }
+
+    @Get('/preco-maior-que/:valor')
+    @HttpCode(HttpStatus.OK)
+    findByPrecoMaior(@Param('valor', ParseIntPipe) valor: number): Promise<Produto[]>{
+        return this.produtoService.findByPrecoMaior(valor);
+    }
+
+    @Get('/preco-menor-que/:valor')
+    @HttpCode(HttpStatus.OK)
+    findByPrecoMenor(@Param('valor', ParseIntPipe) valor: number): Promise<Produto[]>{
+        return this.produtoService.findByPrecoMenor(valor);
     }
 
 }
