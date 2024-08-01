@@ -2,7 +2,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Produto } from './../entities/produto.entity';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { DeleteResult, ILike, LessThan, MoreThan, Repository } from 'typeorm';
-import { Categoria } from '../../categoria/entities/categoria.entity';
 
 @Injectable()
 export class ProdutoService {
@@ -15,6 +14,7 @@ export class ProdutoService {
     return await this.produtoRepository.find({
       relations: {
         categoria: true,
+        usuario: true,
       },
     });
   }
@@ -26,6 +26,7 @@ export class ProdutoService {
       },
       relations: {
         categoria: true,
+        usuario: true,
       },
     });
     if (!produto)
@@ -41,6 +42,7 @@ export class ProdutoService {
       },
       relations: {
         categoria: true,
+        usuario: true,
       },
     });
   }
@@ -86,7 +88,7 @@ export class ProdutoService {
 
     return await this.produtoRepository.find({
       where: {preco: LessThan(valor)},
-      order: {preco: 'ASC'},
+      order: {preco: 'DESC'},
       relations: {categoria: true},
     });
   }
